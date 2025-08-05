@@ -2,7 +2,7 @@
 
 A modern e-commerce web app built with **React (Vite)**, **Firebase**, **Redux Toolkit**, and **Material-UI**.
 
-![EasyMart Banner](https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80)
+![EasyMart Banner](src/assets/EasyMartLogo.png)
 
 ---
 
