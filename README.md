@@ -86,17 +86,14 @@ EasyMart/
 ```bash
 git clone https://github.com/dongyunkim96/EasyMart.git
 cd EasyMart
-
+```
 ### 2. Install dependencies
 
 ```bash
 npm install
-
+```
 ---
 
-### 3. Set up Firebase
-
-```markdown
 ### 3. Set up Firebase
 
 - Create a [Firebase project](https://console.firebase.google.com/)
@@ -116,14 +113,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-
+```
 ---
 
 ### 4. Run locally
 
 ```bash
 npm run dev
-
+```
 ## 📝 Key Implementation Details
 
 - **Authentication:**  
@@ -159,3 +156,4 @@ You can add products in the Firebase console under `products`:
   "price": 2.99,
   "image": "https://images.unsplash.com/photo-1505250469679-203ad9ced0cb?auto=format&fit=crop&w=400&q=80"
 }
+```
