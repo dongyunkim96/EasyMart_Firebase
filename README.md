@@ -30,6 +30,55 @@ A modern e-commerce web app built with **React (Vite)**, **Firebase**, **Redux T
 
 ---
 
+## 📁 File Structure
+
+```plaintext
+EasyMart/
+├── public/
+│   └── favicon.ico
+├── src/
+│   ├── assets/
+│   │   └── EasyMartLogo.png
+│   ├── app/
+│   │   └── store.js
+│   ├── components/
+│   │   ├── Auth/
+│   │   │   ├── LoginForm.jsx
+│   │   │   ├── RegisterForm.jsx
+│   │   │   └── Profile.jsx
+│   │   ├── Products/
+│   │   │   ├── ProductCard.jsx
+│   │   │   ├── ProductForm.jsx
+│   │   │   └── ProductList.jsx
+│   │   ├── Orders/
+│   │   │   └── OrderHistory.jsx
+│   │   ├── Cart.jsx
+│   │   ├── EasyMartLogo.jsx
+│   │   ├── Navbar.jsx
+│   │   └── ScrollToTopButton.jsx
+│   ├── features/
+│   │   ├── auth/
+│   │   │   └── authSlice.js
+│   │   ├── cart/
+│   │   │   └── cartSlice.js
+│   │   ├── products/
+│   │   │   └── productSlice.js
+│   │   └── orders/
+│   │       └── orderSlice.js
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   └── Checkout.jsx
+│   ├── firebase.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── .gitignore
+├── package.json
+├── README.md
+└── vite.config.js
+---
+```
+
 ## 🛠️ Getting Started
 
 ### 1. Clone the repository
