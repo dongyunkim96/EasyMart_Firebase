@@ -2,7 +2,7 @@
 
 A modern e-commerce web app built with **React (Vite)**, **Firebase**, **Redux Toolkit**, and **Material-UI**.
 
-![EasyMart Banner](src/assets/EasyMartLogo.png)
+[![EasyMart Banner](src/assets/EasyMartLogo.png)](https://easymart-kappa.vercel.app)
 
 ---
 
@@ -34,6 +34,10 @@ A modern e-commerce web app built with **React (Vite)**, **Firebase**, **Redux T
 
 ```plaintext
 EasyMart/
+├── .github
+    └── workflows
+        └── main.yml
+├── .vercel
 ├── public/
 │   └── favicon.ico
 ├── src/
@@ -75,6 +79,11 @@ EasyMart/
 ├── .gitignore
 ├── package.json
 ├── README.md
+├── babel.config.js
+├── eslint.config.js
+├── index.html
+├── jest.setup.js
+├── package-lock.json
 └── vite.config.js
 ---
 ```
@@ -157,3 +166,125 @@ You can add products in the Firebase console under `products`:
   "image": "https://images.unsplash.com/photo-1505250469679-203ad9ced0cb?auto=format&fit=crop&w=400&q=80"
 }
 ```
+
+
+## ⚙️ CI/CD Pipeline (GitHub Actions + Vercel)
+
+This project includes a fully automated **CI/CD pipeline** using **GitHub Actions** for Continuous Integration and **Vercel** for Continuous Deployment.  
+Every time code is pushed to the `main` branch (or a pull request is opened), the following process runs:
+
+1. **CI Phase:** Build the project and run all Jest tests  
+2. **CD Phase:** If CI passes, the workflow automatically deploys the latest version to Vercel
+
+---
+
+### 🔹 1. Continuous Integration (CI)
+
+The CI job handles:
+
+- Checking out the repository  
+- Installing dependencies using `npm ci`  
+- Building the Vite project  
+- Running the Jest test suite  
+
+This ensures the application builds correctly and all tests pass before deployment is allowed.
+
+---
+
+### 🔹 2. Continuous Deployment (CD)
+
+After CI succeeds, the CD job deploys the application to Vercel:
+
+- Installs the Vercel CLI  
+- Pulls production environment info with `vercel pull`  
+- Builds the production bundle using Vercel’s build system  
+- Deploys the prebuilt output to the Vercel project  
+
+Deployment only occurs on the `main` branch and only if the CI job passes.
+
+---
+
+### 🔹 3. Workflow File (`.github/workflows/main.yml`)
+
+```yaml
+name: CI-CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ci:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build (Vite)
+        run: npm run build
+
+      - name: Run tests (Jest)
+        run: npm test
+
+  deploy:
+    name: Deploy to Vercel (on pass)
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Pull Vercel env info
+        run: vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+
+      - name: Build (using Vercel)
+        run: vercel build --prod --token=$VERCEL_TOKEN
+
+      - name: Deploy
+        run: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+
+### 🔹 4. Secrets & Environment Variables
+
+The deployment workflow uses a required GitHub repository secret:
+
+- **VERCEL_TOKEN**  
+  Generated from **Vercel Dashboard → Account Settings → Tokens**.  
+  This token allows GitHub Actions to authenticate and deploy the project to Vercel through the CLI.
+
+Additionally, all Vite environment variables (`VITE_FIREBASE_*`) must be configured inside:
+
+**Vercel Dashboard → Project → Settings → Environment Variables**
+
+This ensures Firebase configuration and all sensitive runtime values are available during Vercel production builds.
+
+
+---
+
+### 🔹 5. Deployment Flow Summary
+
+1. Push code to the **main** branch  
+2. GitHub Actions triggers the **CI job**  
+3. The project installs dependencies, builds, and runs Jest tests  
+4. If all CI steps succeed, the **CD job** automatically starts  
+5. Vercel receives the new build, deploys it to Production, and updates the live site automatically  
