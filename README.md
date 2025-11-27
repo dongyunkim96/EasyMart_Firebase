@@ -2,7 +2,7 @@
 
 A modern e-commerce web app built with **React (Vite)**, **Firebase**, **Redux Toolkit**, and **Material-UI**.
 
-[![EasyMart Banner](src/assets/EasyMartLogo.png)](https://easymart-kappa.vercel.app)
+[![EasyMart Banner](EasyMart_Firebase/src/assets/EasyMartLogo.png)](https://easymart-kappa.vercel.app)
 
 ---
 
